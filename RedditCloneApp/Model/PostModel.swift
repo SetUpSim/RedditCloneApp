@@ -7,14 +7,25 @@
 
 import Foundation
 
-//class PostModel {
-//    var authorName: String?
-//    var domain: String?
-//    var timePassed: TimeInterval?
-//    var title: String?
-//    var rating: Int?
-//    var commentsNumber: Int?
-//    var imageUrl: String?
-//
-//    init()
-//}
+struct PostModel: Codable {
+    let author: String
+    let domain: String
+    let created: Date
+    let title: String
+    let ups: Int
+    let downs: Int
+    let numComments: Int
+//    let imageUrl: String?
+}
+
+struct ResponseDataChild: Codable {
+    let data: PostModel
+}
+
+struct ResponseData: Codable {
+    let children: [ResponseDataChild]
+}
+
+struct Response: Codable {
+    let data: ResponseData
+}
