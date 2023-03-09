@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class PostViewController: UIViewController {
     
     
     @IBOutlet weak var postInfoLabel: UILabel!
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        post = PostService.loadPosts(subreddit: "ios", limit: 1)[0]
+        post = PostService.loadPosts(subreddit: "gaming", limit: 1)[0]
         updatePostView()
     }
     

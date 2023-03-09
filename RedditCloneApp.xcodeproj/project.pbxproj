@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E714059529B4AF01009C6548 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E714059429B4AF01009C6548 /* AppDelegate.swift */; };
 		E714059729B4AF01009C6548 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E714059629B4AF01009C6548 /* SceneDelegate.swift */; };
-		E714059929B4AF01009C6548 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E714059829B4AF01009C6548 /* ViewController.swift */; };
+		E714059929B4AF01009C6548 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E714059829B4AF01009C6548 /* PostViewController.swift */; };
 		E714059C29B4AF01009C6548 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E714059A29B4AF01009C6548 /* Main.storyboard */; };
 		E714059E29B4AF09009C6548 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E714059D29B4AF09009C6548 /* Assets.xcassets */; };
 		E71405A129B4AF09009C6548 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E714059F29B4AF09009C6548 /* LaunchScreen.storyboard */; };
@@ -45,7 +45,7 @@
 		E714059129B4AF01009C6548 /* RedditCloneApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedditCloneApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E714059429B4AF01009C6548 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E714059629B4AF01009C6548 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E714059829B4AF01009C6548 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E714059829B4AF01009C6548 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E714059B29B4AF01009C6548 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E714059D29B4AF09009C6548 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E71405A029B4AF09009C6548 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 				E714059429B4AF01009C6548 /* AppDelegate.swift */,
 				E71405A229B4AF09009C6548 /* Info.plist */,
 				E714059629B4AF01009C6548 /* SceneDelegate.swift */,
-				E714059829B4AF01009C6548 /* ViewController.swift */,
+				E714059829B4AF01009C6548 /* PostViewController.swift */,
 				E714059A29B4AF01009C6548 /* Main.storyboard */,
 				E714059F29B4AF09009C6548 /* LaunchScreen.storyboard */,
 				E760A2A429B8FA8B009FEB06 /* Utils.swift */,
@@ -307,7 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E757FEC129B8C93D00324493 /* PostService.swift in Sources */,
-				E714059929B4AF01009C6548 /* ViewController.swift in Sources */,
+				E714059929B4AF01009C6548 /* PostViewController.swift in Sources */,
 				E757FEBF29B8C1B000324493 /* PostModel.swift in Sources */,
 				E714059529B4AF01009C6548 /* AppDelegate.swift in Sources */,
 				E714059729B4AF01009C6548 /* SceneDelegate.swift in Sources */,
