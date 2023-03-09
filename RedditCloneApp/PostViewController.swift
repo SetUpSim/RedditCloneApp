@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class PostViewController: UIViewController {
     
@@ -15,23 +16,38 @@ class PostViewController: UIViewController {
     @IBOutlet weak var postTitleLabel: UILabel!
     @IBOutlet weak var postImageView: UIImageView!
     
-    @IBOutlet weak var ratingButton: UIButton!
-    @IBOutlet weak var commentsButton: UIButton!
+    @IBOutlet weak var ratingImage: UIImageView!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var commentsLabel: UILabel!
     
     var post: PostModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        post = PostService.loadPosts(subreddit: "gaming", limit: 1)[0]
+        post = PostService.loadPosts(subreddit: "ios", limit: 1)[0]
         updatePostView()
+    }
+    
+    func loadImage() {
+        if let imgSource = post?.preview?.images[0].source {
+            let preparedUrl = prepareImageURL(url: imgSource.url)
+            print(preparedUrl)
+            
+            let ratio = Double(imgSource.width) / Double(imgSource.height)
+            let viewWidth = postImageView.frame.width
+            let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewWidth / ratio), scaleMode: .fill)
+        
+            postImageView.sd_setImage(with: URL(string: preparedUrl), placeholderImage: nil, context: [.imageTransformer: trasformer])
+        }
     }
     
     func updatePostView() {
         postTitleLabel.text = post?.title
         setBookMarkButtonState()
         setPostInfoText()
-        setPostRatingText()
-        setCommentsCountText()
+        updatePostRatingLabelAndImage()
+        updateCommentsLabel()
+        loadImage()
     }
     
     func setBookMarkButtonState() {
@@ -59,16 +75,17 @@ class PostViewController: UIViewController {
         }
     }
     
-    func setPostRatingText() {
+    func updatePostRatingLabelAndImage() {
         if let ups = post?.ups, let downs = post?.downs {
             let rating = ups - downs
-            ratingButton.titleLabel?.text = formatNumber(rating)
+            ratingLabel.text = formatNumber(rating)
+            ratingImage.image = UIImage(systemName: (rating > 0 ? "arrow.up" : "arrow.down"))
         }
     }
     
-    func setCommentsCountText() {
+    func updateCommentsLabel() {
         if let count = post?.numComments {
-            commentsButton.titleLabel?.text = formatNumber(count)
+            commentsLabel.text = formatNumber(count)
         }
     }
     

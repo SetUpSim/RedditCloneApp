@@ -44,3 +44,8 @@ func formatNumber(_ n: Int) -> String {
         return "\(sign)\(n)"
     }
 }
+
+func prepareImageURL(url: String) -> String {
+    let prepared = url.replacingOccurrences(of: "&amp;", with: "&")
+    return prepared
+}

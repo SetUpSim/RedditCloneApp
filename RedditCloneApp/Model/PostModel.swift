@@ -15,7 +15,21 @@ struct PostModel: Codable {
     let ups: Int
     let downs: Int
     let numComments: Int
-//    let imageUrl: String?
+    let preview: ImagePreview?
+}
+
+struct ImagePreview : Codable {
+    let images: [ImageObj]
+}
+
+struct ImageObj: Codable {
+    let source: ImageSource
+}
+
+struct ImageSource: Codable {
+    let url: String
+    let width: Int
+    let height: Int
 }
 
 struct ResponseDataChild: Codable {
