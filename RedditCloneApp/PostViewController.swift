@@ -28,6 +28,15 @@ class PostViewController: UIViewController {
         updatePostView()
     }
     
+    func updatePostView() {
+        postTitleLabel.text = post?.title
+        setBookMarkButtonState()
+        setPostInfoText()
+        updatePostRatingLabelAndImage()
+        updateCommentsLabel()
+        loadImage()
+    }
+    
     func loadImage() {
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)
@@ -39,16 +48,7 @@ class PostViewController: UIViewController {
         
             postImageView.sd_setImage(with: URL(string: preparedUrl), placeholderImage: nil, context: [.imageTransformer: trasformer])
         }
-    }
-    
-    func updatePostView() {
-        postTitleLabel.text = post?.title
-        setBookMarkButtonState()
-        setPostInfoText()
-        updatePostRatingLabelAndImage()
-        updateCommentsLabel()
-        loadImage()
-    }
+    }	
     
     func setBookMarkButtonState() {
         let bookmarked = Bool.random()
