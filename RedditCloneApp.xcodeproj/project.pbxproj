@@ -21,6 +21,8 @@
 		E757FEBB29B8C09E00324493 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = E757FEBA29B8C09E00324493 /* SDWebImageMapKit */; };
 		E757FEBF29B8C1B000324493 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E757FEBE29B8C1B000324493 /* PostModel.swift */; };
 		E757FEC129B8C93D00324493 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E757FEC029B8C93D00324493 /* PostService.swift */; };
+		E75AD92429D1FEF40007011F /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75AD92329D1FEF40007011F /* PostListViewController.swift */; };
+		E75AD92A29D206D60007011F /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75AD92929D206D60007011F /* PostTableViewCell.swift */; };
 		E760A2A529B8FA8B009FEB06 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760A2A429B8FA8B009FEB06 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,8 @@
 		E757FEB529B8BF3200324493 /* placeholder.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = placeholder.jpeg; sourceTree = "<group>"; };
 		E757FEBE29B8C1B000324493 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		E757FEC029B8C93D00324493 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		E75AD92329D1FEF40007011F /* PostListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
+		E75AD92929D206D60007011F /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		E760A2A429B8FA8B009FEB06 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,6 +124,8 @@
 				E714059A29B4AF01009C6548 /* Main.storyboard */,
 				E714059F29B4AF09009C6548 /* LaunchScreen.storyboard */,
 				E760A2A429B8FA8B009FEB06 /* Utils.swift */,
+				E75AD92329D1FEF40007011F /* PostListViewController.swift */,
+				E75AD92929D206D60007011F /* PostTableViewCell.swift */,
 			);
 			path = RedditCloneApp;
 			sourceTree = "<group>";
@@ -306,8 +312,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E75AD92429D1FEF40007011F /* PostListViewController.swift in Sources */,
 				E757FEC129B8C93D00324493 /* PostService.swift in Sources */,
 				E714059929B4AF01009C6548 /* PostViewController.swift in Sources */,
+				E75AD92A29D206D60007011F /* PostTableViewCell.swift in Sources */,
 				E757FEBF29B8C1B000324493 /* PostModel.swift in Sources */,
 				E714059529B4AF01009C6548 /* AppDelegate.swift in Sources */,
 				E714059729B4AF01009C6548 /* SceneDelegate.swift in Sources */,
