@@ -39,7 +39,7 @@ extension PostListViewController: UITableViewDataSource {
         ) as! PostTableViewCell
         cell.configure(posts[indexPath.row])
         if (indexPath.row + Const.postsBeforeNewLoad >= posts.count) {
-            let (newPosts, newPostsAt) = PostService.loadPosts(subreddit: Const.subreddit, limit: Const.chunkSize)
+            let (newPosts, newPostsAt) = PostService.loadPosts(subreddit: Const.subreddit, limit: Const.chunkSize, after: newPostsAt)
             self.newPostsAt = newPostsAt
             posts.append(contentsOf: newPosts)
             tableView.reloadData()
