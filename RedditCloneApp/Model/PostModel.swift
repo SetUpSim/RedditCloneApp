@@ -38,6 +38,7 @@ struct ResponseDataChild: Codable {
 
 struct ResponseData: Codable {
     let children: [ResponseDataChild]
+    let after: String
 }
 
 struct Response: Codable {

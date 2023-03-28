@@ -24,7 +24,7 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        post = PostService.loadPosts(subreddit: "ios", limit: 1)[0]
+//        post = PostService.loadPosts(subreddit: "ios", limit: 1)[0]
         updatePostView()
     }
     

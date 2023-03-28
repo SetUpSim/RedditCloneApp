@@ -248,6 +248,7 @@
                                         <connections>
                                             <outlet property="bookmarkButton" destination="UGH-ya-Fi0" id="VL4-rP-0Si"/>
                                             <outlet property="commentsLabel" destination="lrh-Pi-aRz" id="xbA-8I-Tnd"/>
+                                            <outlet property="postImageHeigthConstraint" destination="RqL-z4-MiS" id="Wc6-PZ-IWo"/>
                                             <outlet property="postImageView" destination="9WL-g4-v1y" id="jG9-Zb-Lez"/>
                                             <outlet property="postInfoLabel" destination="LYw-bJ-ywd" id="rlK-s5-e3V"/>
                                             <outlet property="postTitleLabel" destination="E9o-p7-fSQ" id="Zk4-wi-Ng9"/>
@@ -258,6 +259,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="4NX-nr-Rtz" id="Gdl-gl-Rxt"/>
+                                    <outlet property="delegate" destination="4NX-nr-Rtz" id="skf-O1-3m2"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -270,6 +272,9 @@
                             <constraint firstItem="Jg4-MR-0r8" firstAttribute="top" secondItem="aMZ-Ho-BbG" secondAttribute="top" id="zNh-O2-7gf"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="Jg4-MR-0r8" id="tN6-3v-qhx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xIH-70-gy2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

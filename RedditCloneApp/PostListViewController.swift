@@ -6,13 +6,24 @@
 //
 
 import UIKit
+import Foundation
 
 class PostListViewController: UIViewController {
 
-    let posts = PostService.loadPosts(subreddit: "gaming", limit: 10)
+    struct Const {
+        static let subreddit = "ios"
+        static let chunkSize = 10
+        static let postsBeforeNewLoad = 2
+    }
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var newPostsAt = ""
+    var posts = [PostModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.posts, self.newPostsAt) = PostService.loadPosts(subreddit: Const.subreddit, limit: Const.chunkSize)
     }
 }
 
@@ -27,7 +38,20 @@ extension PostListViewController: UITableViewDataSource {
             for: indexPath
         ) as! PostTableViewCell
         cell.configure(posts[indexPath.row])
+        if (indexPath.row + Const.postsBeforeNewLoad >= posts.count) {
+            let (newPosts, newPostsAt) = PostService.loadPosts(subreddit: Const.subreddit, limit: Const.chunkSize)
+            self.newPostsAt = newPostsAt
+            posts.append(contentsOf: newPosts)
+            tableView.reloadData()
+        }
         return cell
     }
 }
+
+extension PostListViewController: UITableViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print("Scroll view offset: ", scrollView.contentOffset.y)
+    }
+}
+
 

@@ -9,16 +9,25 @@ import Foundation
 
 class PostService {
     
-    static func loadPosts(subreddit: String, limit: Int) -> [PostModel] {
-        let url = URL(string: "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(limit)")
+    static func loadPosts(subreddit: String, limit: Int, after: String? = nil) -> ([PostModel], String)  {
+        var urlString = "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(limit)"
+        
+        if let after = after {
+            urlString += "&after=\(after)"
+        }
+        
+        let url = URL(string: urlString)
         
         var postsLoaded: [PostModel]?
+        var nextPostsAt: String?
         
         let sem = DispatchSemaphore(value: 0)
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             if let data = data {
-                postsLoaded = try! convertJsonResponseToPostsArray(response: data)
+                let myResp = decodeResponse(response: data)
+                postsLoaded = getPostsArrayOfResponse(response: myResp)
+                nextPostsAt = myResp.data.after
                 sem.signal()
             } else if let error = error {
                 print("HTTP Request failed with following error \n \(error)")
@@ -26,14 +35,18 @@ class PostService {
         }
         task.resume()
         sem.wait()
-        return postsLoaded!
+        return (postsLoaded ?? [], nextPostsAt ?? "")
     }
     
-    static func convertJsonResponseToPostsArray(response: Data) throws -> [PostModel] {
+    static func decodeResponse(response: Data) -> Response {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .secondsSince1970
-        let response = try! decoder.decode(Response.self, from: response)
+        return try! decoder.decode(Response.self, from: response)
+    }
+    
+    static func getPostsArrayOfResponse(response: Response) -> [PostModel] {
+        
         return response.data.children.map { child in
             child.data
         }

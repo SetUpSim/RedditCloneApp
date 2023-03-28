@@ -12,6 +12,7 @@ class PostTableViewCell: UITableViewCell {
     
     struct Const {
         static let restorationID = "post_cell_id"
+        static let placeholderImageName = "placeholder.png"
     }
 
     override func awakeFromNib() {
@@ -34,6 +35,8 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     
+    @IBOutlet weak var postImageHeigthConstraint: NSLayoutConstraint!
+    
     var post: PostModel?
     
     func configure(_ post: PostModel) {
@@ -46,20 +49,36 @@ class PostTableViewCell: UITableViewCell {
         loadImage()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postImageView.image = UIImage(named: Const.placeholderImageName)
+//        postImageHeigthConstraint.isActive = true
+    }
+    
     func loadImage() {
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)
-            print(preparedUrl)
             
             let ratio = Double(imgSource.width) / Double(imgSource.height)
             let viewWidth = postImageView.frame.width
             let viewHeight = viewWidth / ratio
             let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
         
-            postImageView.heightAnchor.constraint(equalToConstant: viewHeight).isActive = true
-            let image = UIImage(named: "placeholder.jpeg")
-            postImageView.sd_setImage(with: URL(string: preparedUrl), placeholderImage: UIImage(named: "placeholder.jpeg"), context: [.imageTransformer: trasformer])
+            postImageView.sd_setImage(
+                with: URL(string: preparedUrl),
+                placeholderImage: UIImage(named: Const.placeholderImageName),
+                options: .progressiveLoad,
+                context: [.imageTransformer: trasformer],
+                progress: nil,
+                completed: {(image, error, cacheType, url) in
+                    if image != nil {
+                        self.postImageHeigthConstraint.isActive = false
+                    } else {
+                        print("Error during image load (", preparedUrl,  "): ", error ?? "")
+                    }
+                })
         }
+            
     }
     
     func setBookMarkButtonState() {
@@ -99,4 +118,5 @@ class PostTableViewCell: UITableViewCell {
         if let count = post?.numComments {
             commentsLabel.text = formatNumber(count)
         }
-    }}
+    }
+}
