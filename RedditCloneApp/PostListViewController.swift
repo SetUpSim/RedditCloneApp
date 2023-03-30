@@ -11,10 +11,10 @@ import Foundation
 class PostListViewController: UIViewController {
 
     struct Const {
-        static let subreddit = "ukraine"
+        static let subreddit = "ios"
         static let selectPostSequeID = "go_to_post_details"
-        static let chunkSize = 10
-        static let postsBeforeNewLoad = 2
+        static let chunkSize = 30
+        static let postsBeforeNewLoad = 5
     }
     
     @IBOutlet weak var tableView: UITableView!

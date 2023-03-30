@@ -24,8 +24,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     
-    @IBOutlet weak var postImageHeigthConstraint: NSLayoutConstraint!
-    var postImageZeroHeightConstraint: NSLayoutConstraint?
+    @IBOutlet var postImageHeigthConstraint: NSLayoutConstraint!
     
     var post: PostModel?
     var isBookmarked = false;
@@ -38,7 +37,6 @@ class PostTableViewCell: UITableViewCell {
         updatePostRatingLabelAndImage()
         updateCommentsLabel()
         loadImage()
-        postImageZeroHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
     }
     
     override func prepareForReuse() {
@@ -55,7 +53,7 @@ class PostTableViewCell: UITableViewCell {
             let viewWidth = postImageView.frame.width
             let viewHeight = viewWidth / ratio
             let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
-        
+            
             postImageView.sd_setImage(
                 with: URL(string: preparedUrl),
                 placeholderImage: UIImage(named: Const.placeholderImageName),
@@ -63,25 +61,24 @@ class PostTableViewCell: UITableViewCell {
                 context: [.imageTransformer: trasformer],
                 progress: nil,
                 completed: {(image, error, cacheType, url) in
-                    if image != nil {
-                        self.postImageHeigthConstraint.isActive = false
-                        return
-                    } else if let err = error{
+                    if let err = error {
                         print("Error during image load (", preparedUrl,  "): ", err)
+                        self.clearImage()
+                    } else {
+                        self.postImageHeigthConstraint.isActive = false
+                        self.postImageView.image = image
                     }
-                    self.clearImage()
                 }
             )
         } else {
             self.clearImage()
         }
-            
     }
     
     func clearImage() {
         postImageView.image = nil
-        postImageZeroHeightConstraint?.isActive = true
-        postImageHeigthConstraint.isActive = false
+        postImageHeigthConstraint.constant = 0
+        postImageHeigthConstraint.isActive = true
     }
     
     func updateBookmarkButtonState() {
