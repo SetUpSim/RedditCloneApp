@@ -32,7 +32,6 @@ class PostTableViewCell: UITableViewCell {
     
     func configure(_ post: PostModel) {
         self.post = post
-        print("CONFIGURING CELL for post with title", post.title ?? "", separator: "\n\t")
         postTitleLabel.text = post.title
         updateBookmarkButtonState()
         setPostInfoText()
@@ -43,14 +42,12 @@ class PostTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        print("PREPARING FOR REUSE cell for post with title", post?.title ?? "", separator: "\n\t")
         super.prepareForReuse()
         post = nil
         isBookmarked = false
     }
     
     func loadImage() {
-        print("LOADING IMAGE for post with title", post?.title ?? "", separator: "\n\t")
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)
             
@@ -76,7 +73,6 @@ class PostTableViewCell: UITableViewCell {
                 }
             )
         } else {
-            print("NO IMAGE for post with title", post?.title ?? "", separator: "\n\t")
             self.clearImage()
         }
             

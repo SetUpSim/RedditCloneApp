@@ -34,7 +34,7 @@ class PostListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
             case Const.selectPostSequeID:
-                let postDetailsVC = segue.destination as! PostViewController
+                let postDetailsVC = segue.destination as! PostDetailsViewController
             postDetailsVC.configure(lastSelectedPost!)
             default:
                 break
@@ -66,7 +66,6 @@ extension PostListViewController: UITableViewDataSource {
 extension PostListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         lastSelectedPost = posts[indexPath.row]
-        print("Selected post with title: ", lastSelectedPost?.title ?? "")
         performSegue(withIdentifier: Const.selectPostSequeID, sender: nil)
         tableView.deselectRow(at: indexPath, animated: false)
     }

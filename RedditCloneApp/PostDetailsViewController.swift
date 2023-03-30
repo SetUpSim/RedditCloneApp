@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class PostViewController: UIViewController {
+class PostDetailsViewController: UIViewController {
     
     struct Const {
         static let placeholderImageName = "noimage.jpeg"
