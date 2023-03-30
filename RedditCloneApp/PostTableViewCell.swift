@@ -12,18 +12,7 @@ class PostTableViewCell: UITableViewCell {
     
     struct Const {
         static let restorationID = "post_cell_id"
-        static let placeholderImageName = "placeholder.png"
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        static let placeholderImageName = "loading.gif"
     }
     
     @IBOutlet weak var postInfoLabel: UILabel!
@@ -36,26 +25,32 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var commentsLabel: UILabel!
     
     @IBOutlet weak var postImageHeigthConstraint: NSLayoutConstraint!
+    var postImageZeroHeightConstraint: NSLayoutConstraint?
     
     var post: PostModel?
+    var isBookmarked = false;
     
     func configure(_ post: PostModel) {
         self.post = post
+        print("CONFIGURING CELL for post with title", post.title ?? "", separator: "\n\t")
         postTitleLabel.text = post.title
-        setBookMarkButtonState()
+        updateBookmarkButtonState()
         setPostInfoText()
         updatePostRatingLabelAndImage()
         updateCommentsLabel()
         loadImage()
+        postImageZeroHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
     }
     
     override func prepareForReuse() {
+        print("PREPARING FOR REUSE cell for post with title", post?.title ?? "", separator: "\n\t")
         super.prepareForReuse()
-        postImageView.image = UIImage(named: Const.placeholderImageName)
-//        postImageHeigthConstraint.isActive = true
+        post = nil
+        isBookmarked = false
     }
     
     func loadImage() {
+        print("LOADING IMAGE for post with title", post?.title ?? "", separator: "\n\t")
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)
             
@@ -73,22 +68,32 @@ class PostTableViewCell: UITableViewCell {
                 completed: {(image, error, cacheType, url) in
                     if image != nil {
                         self.postImageHeigthConstraint.isActive = false
-                    } else {
-                        print("Error during image load (", preparedUrl,  "): ", error ?? "")
+                        return
+                    } else if let err = error{
+                        print("Error during image load (", preparedUrl,  "): ", err)
                     }
-                })
+                    self.clearImage()
+                }
+            )
+        } else {
+            print("NO IMAGE for post with title", post?.title ?? "", separator: "\n\t")
+            self.clearImage()
         }
             
     }
     
-    func setBookMarkButtonState() {
-        let bookmarked = Bool.random()
-        if (bookmarked) {
+    func clearImage() {
+        postImageView.image = nil
+        postImageZeroHeightConstraint?.isActive = true
+        postImageHeigthConstraint.isActive = false
+    }
+    
+    func updateBookmarkButtonState() {
+        if (isBookmarked) {
             bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
             bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         }
-        
     }
     
     func setPostInfoText() {
@@ -118,5 +123,10 @@ class PostTableViewCell: UITableViewCell {
         if let count = post?.numComments {
             commentsLabel.text = formatNumber(count)
         }
+    }
+    
+    @IBAction func bookmarkButtonClicked(_ sender: Any) {
+        isBookmarked.toggle()
+        updateBookmarkButtonState()
     }
 }

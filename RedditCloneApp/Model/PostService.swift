@@ -25,9 +25,10 @@ class PostService {
         
         let task = URLSession.shared.dataTask(with: url!) { data, response, error in
             if let data = data {
-                let myResp = decodeResponse(response: data)
-                postsLoaded = getPostsArrayOfResponse(response: myResp)
-                nextPostsAt = myResp.data.after
+                if let myResp = decodeResponse(response: data) {
+                    postsLoaded = getPostsArrayOfResponse(response: myResp)
+                    nextPostsAt = myResp.data.after
+                }
                 sem.signal()
             } else if let error = error {
                 print("HTTP Request failed with following error \n \(error)")
@@ -38,15 +39,21 @@ class PostService {
         return (postsLoaded ?? [], nextPostsAt ?? "")
     }
     
-    static func decodeResponse(response: Data) -> Response {
+    static func decodeResponse(response: Data) -> Response? {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         decoder.dateDecodingStrategy = .secondsSince1970
-        return try! decoder.decode(Response.self, from: response)
+
+        do {
+            let result = try decoder.decode(Response.self, from: response)
+            return result
+        } catch {
+            print("Error occured while decoding API response:", error)
+            return nil
+        }
     }
     
     static func getPostsArrayOfResponse(response: Response) -> [PostModel] {
-        
         return response.data.children.map { child in
             child.data
         }

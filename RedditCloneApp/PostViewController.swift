@@ -10,6 +10,9 @@ import SDWebImage
 
 class PostViewController: UIViewController {
     
+    struct Const {
+        static let placeholderImageName = "noimage.jpeg"
+    }
     
     @IBOutlet weak var postInfoLabel: UILabel!
     @IBOutlet weak var bookmarkButton: UIButton!
@@ -20,39 +23,60 @@ class PostViewController: UIViewController {
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     
-    var post: PostModel?
+    @IBOutlet weak var postImageHeigthConstraint: NSLayoutConstraint!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        post = PostService.loadPosts(subreddit: "ios", limit: 1)[0]
-        updatePostView()
+    var post: PostModel?
+    var isBookmarked = false;
+    
+    func configure(_ post: PostModel) {
+        self.post = post
     }
     
-    func updatePostView() {
-        postTitleLabel.text = post?.title
-        setBookMarkButtonState()
+    func updateView() {
+        postTitleLabel.text = post!.title
+        updateBookmarkButtonState()
         setPostInfoText()
         updatePostRatingLabelAndImage()
         updateCommentsLabel()
         loadImage()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateView()
+    }
+    
     func loadImage() {
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)
-            print(preparedUrl)
             
             let ratio = Double(imgSource.width) / Double(imgSource.height)
             let viewWidth = postImageView.frame.width
-            let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewWidth / ratio), scaleMode: .fill)
+            let viewHeight = viewWidth / ratio
+            let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
         
-            postImageView.sd_setImage(with: URL(string: preparedUrl), placeholderImage: nil, context: [.imageTransformer: trasformer])
+            postImageView.sd_setImage(
+                with: URL(string: preparedUrl),
+                placeholderImage: UIImage(named: Const.placeholderImageName),
+                options: .progressiveLoad,
+                context: [.imageTransformer: trasformer],
+                progress: nil,
+                completed: {(image, error, cacheType, url) in
+                    if image != nil {
+                        self.postImageHeigthConstraint.isActive = false
+                    } else {
+                        print("Error during image load (", preparedUrl,  "): ", error ?? "")
+                    }
+                })
+        } else {
+            postImageView.image = UIImage(named: Const.placeholderImageName)
+            postImageHeigthConstraint.isActive = false
         }
-    }	
+            
+    }
     
-    func setBookMarkButtonState() {
-        let bookmarked = Bool.random()
-        if (bookmarked) {
+    func updateBookmarkButtonState() {
+        if (isBookmarked) {
             bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         } else {
             bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
@@ -87,6 +111,12 @@ class PostViewController: UIViewController {
         if let count = post?.numComments {
             commentsLabel.text = formatNumber(count)
         }
+    }
+    
+    
+    @IBAction func bookmarkButtonClicked(_ sender: Any) {
+        isBookmarked.toggle()
+        updateBookmarkButtonState()
     }
     
 }

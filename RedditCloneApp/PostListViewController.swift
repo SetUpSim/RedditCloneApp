@@ -11,19 +11,34 @@ import Foundation
 class PostListViewController: UIViewController {
 
     struct Const {
-        static let subreddit = "ios"
+        static let subreddit = "ukraine"
+        static let selectPostSequeID = "go_to_post_details"
         static let chunkSize = 10
         static let postsBeforeNewLoad = 2
     }
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navigationBar: UINavigationItem!
     
     var newPostsAt = ""
     var posts = [PostModel]()
+    var lastSelectedPost: PostModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationBar.title = "r/" + Const.subreddit
+        navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: nil)
         (self.posts, self.newPostsAt) = PostService.loadPosts(subreddit: Const.subreddit, limit: Const.chunkSize)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+            case Const.selectPostSequeID:
+                let postDetailsVC = segue.destination as! PostViewController
+            postDetailsVC.configure(lastSelectedPost!)
+            default:
+                break
+        }
     }
 }
 
@@ -49,8 +64,11 @@ extension PostListViewController: UITableViewDataSource {
 }
 
 extension PostListViewController: UITableViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print("Scroll view offset: ", scrollView.contentOffset.y)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        lastSelectedPost = posts[indexPath.row]
+        print("Selected post with title: ", lastSelectedPost?.title ?? "")
+        performSegue(withIdentifier: Const.selectPostSequeID, sender: nil)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }
 

@@ -23,6 +23,8 @@
 		E757FEC129B8C93D00324493 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E757FEC029B8C93D00324493 /* PostService.swift */; };
 		E75AD92429D1FEF40007011F /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75AD92329D1FEF40007011F /* PostListViewController.swift */; };
 		E75AD92A29D206D60007011F /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75AD92929D206D60007011F /* PostTableViewCell.swift */; };
+		E75F3F1029D57CFD0009BEE0 /* noimage.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E75F3F0F29D57CFD0009BEE0 /* noimage.jpeg */; };
+		E75F3F1229D586350009BEE0 /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = E75F3F1129D586350009BEE0 /* Assets */; };
 		E760A2A529B8FA8B009FEB06 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E760A2A429B8FA8B009FEB06 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +64,8 @@
 		E757FEC029B8C93D00324493 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		E75AD92329D1FEF40007011F /* PostListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
 		E75AD92929D206D60007011F /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		E75F3F0F29D57CFD0009BEE0 /* noimage.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = noimage.jpeg; sourceTree = "<group>"; };
+		E75F3F1129D586350009BEE0 /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		E760A2A429B8FA8B009FEB06 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,6 +119,7 @@
 		E714059329B4AF01009C6548 /* RedditCloneApp */ = {
 			isa = PBXGroup;
 			children = (
+				E75F3F1129D586350009BEE0 /* Assets */,
 				E757FEBD29B8C19600324493 /* Model */,
 				E757FEB329B8BE7400324493 /* Assets */,
 				E714059429B4AF01009C6548 /* AppDelegate.swift */,
@@ -159,6 +164,7 @@
 		E757FEB429B8BE9000324493 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E75F3F0F29D57CFD0009BEE0 /* noimage.jpeg */,
 				E757FEB529B8BF3200324493 /* placeholder.jpeg */,
 			);
 			path = Images;
@@ -285,6 +291,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E71405A129B4AF09009C6548 /* LaunchScreen.storyboard in Resources */,
+				E75F3F1229D586350009BEE0 /* Assets in Resources */,
+				E75F3F1029D57CFD0009BEE0 /* noimage.jpeg in Resources */,
 				E714059E29B4AF09009C6548 /* Assets.xcassets in Resources */,
 				E714059C29B4AF01009C6548 /* Main.storyboard in Resources */,
 				E757FEB629B8BF3200324493 /* placeholder.jpeg in Resources */,
@@ -496,7 +504,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VNU8KKW4GG;
+				DEVELOPMENT_TEAM = TAM6665U3W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RedditCloneApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -524,7 +532,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VNU8KKW4GG;
+				DEVELOPMENT_TEAM = TAM6665U3W;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RedditCloneApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
