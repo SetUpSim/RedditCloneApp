@@ -24,6 +24,7 @@ struct ImagePreview : Codable {
 
 struct ImageObj: Codable {
     let source: ImageSource
+    let resolutions: [ImageSource]
 }
 
 struct ImageSource: Codable {

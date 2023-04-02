@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
-
 class PostTableViewCell: UITableViewCell {
     
     struct Const {
@@ -36,43 +34,12 @@ class PostTableViewCell: UITableViewCell {
         setPostInfoText()
         updatePostRatingLabelAndImage()
         updateCommentsLabel()
-        loadImage()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         post = nil
         isBookmarked = false
-    }
-    
-    func loadImage() {
-        if let imgSource = post?.preview?.images[0].source {
-            let preparedUrl = prepareImageURL(url: imgSource.url)
-            
-            let ratio = Double(imgSource.width) / Double(imgSource.height)
-            let viewWidth = postImageView.frame.width
-            let viewHeight = viewWidth / ratio
-            let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
-            
-            postImageView.sd_setImage(
-                with: URL(string: preparedUrl),
-                placeholderImage: UIImage(named: Const.placeholderImageName),
-                options: .progressiveLoad,
-                context: [.imageTransformer: trasformer],
-                progress: nil,
-                completed: {(image, error, cacheType, url) in
-                    if let err = error {
-                        print("Error during image load (", preparedUrl,  "): ", err)
-                        self.clearImage()
-                    } else {
-                        self.postImageHeigthConstraint.isActive = false
-                        self.postImageView.image = image
-                    }
-                }
-            )
-        } else {
-            self.clearImage()
-        }
     }
     
     func clearImage() {

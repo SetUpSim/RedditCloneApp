@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import SDWebImage
 
 class PostListViewController: UIViewController {
 
@@ -64,6 +65,53 @@ class PostListViewController: UIViewController {
         }
         loadingPending = false
     }
+    
+    func loadImage(for cell: PostTableViewCell, post: PostModel) {
+        if let imgSource = findSourceOfOptimalSizedImage(post) {
+            let preparedUrl = prepareImageURL(url: imgSource.url)
+            
+            let ratio = Double(imgSource.width) / Double(imgSource.height)
+            let viewWidth = cell.postImageView.frame.width
+            let viewHeight = viewWidth / ratio
+            let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
+            
+            cell.postImageView.sd_setImage(
+                with: URL(string: preparedUrl),
+                placeholderImage: UIImage(named: PostTableViewCell.Const.placeholderImageName),
+                options: .progressiveLoad,
+                context: [.imageTransformer: trasformer],
+                progress: nil,
+                completed: {(image, error, cacheType, url) in
+                    if let err = error {
+                        print("Error during image load (", preparedUrl,  "): ", err)
+                        cell.clearImage()
+                    } else {
+                        cell.postImageHeigthConstraint.isActive = false
+                        cell.postImageView.image = image
+                    }
+                }
+            )
+            cell.postImageView.setNeedsLayout()
+        } else {
+            cell.clearImage()
+        }
+    }
+    
+    func findSourceOfOptimalSizedImage(_ post: PostModel) -> ImageSource? {
+        let postImgs = post.preview?.images
+        if let postImages = postImgs {
+            if postImages.count != 0 {
+                let resolutions = postImages[0].resolutions
+                for res in resolutions {
+                    if tableView.frame.size.width.isLess(than: CGFloat(res.width)) {
+                        return res
+                    }
+                }
+            }
+        }
+        
+        return postImgs?[0].source
+    }
 }
 
 extension PostListViewController: UITableViewDataSource {
@@ -76,7 +124,9 @@ extension PostListViewController: UITableViewDataSource {
             withIdentifier: PostTableViewCell.Const.restorationID,
             for: indexPath
         ) as! PostTableViewCell
-        cell.configure(posts[indexPath.row])
+        let post = posts[indexPath.row]
+        cell.configure(post)
+        loadImage(for: cell, post: post)
         if (!lastChunkFailedToLoad && !loadingPending && indexPath.row + Const.postsBeforeNewLoad >= posts.count) {
             loadNewPosts(after: newPostsAt)
             
@@ -95,7 +145,6 @@ extension PostListViewController: UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height
         if (lastChunkFailedToLoad && !loadingPending && endScrolling >= scrollView.contentSize.height) {
-            print("!!!!BOTTOM REFRESH TRIGGERED!!!!")
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 self.loadingPending = true
                 self.loadNewPosts(after: self.newPostsAt)
