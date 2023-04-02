@@ -9,7 +9,7 @@ import Foundation
 
 class PostService {
     
-    static func loadPosts(subreddit: String, limit: Int, after: String? = nil) -> ([PostModel], String)  {
+    static func loadPosts(subreddit: String, limit: Int, after: String? = nil, completion: @escaping([PostModel]?, String?) -> ()){
         var urlString = "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(limit)"
         
         if let after = after {
@@ -21,22 +21,22 @@ class PostService {
         var postsLoaded: [PostModel]?
         var nextPostsAt: String?
         
-        let sem = DispatchSemaphore(value: 0)
-        
-        let task = URLSession.shared.dataTask(with: url!) { data, response, error in
-            if let data = data {
+        let dataTask = URLSession.shared.dataTask(with: url!) { data, respontsse, error in
+            if let data = data, error == nil {
                 if let myResp = decodeResponse(response: data) {
                     postsLoaded = getPostsArrayOfResponse(response: myResp)
                     nextPostsAt = myResp.data.after
+                    completion(postsLoaded, nextPostsAt)
+                } else {
+                    completion(nil, nil)
                 }
-                sem.signal()
+                
             } else if let error = error {
                 print("HTTP Request failed with following error \n \(error)")
             }
         }
-        task.resume()
-        sem.wait()
-        return (postsLoaded ?? [], nextPostsAt ?? "")
+        dataTask.resume()
+        	
     }
     
     static func decodeResponse(response: Data) -> Response? {

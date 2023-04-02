@@ -108,7 +108,7 @@ class PostTableViewCell: UITableViewCell {
         if let ups = post?.ups, let downs = post?.downs {
             let rating = ups - downs
             ratingLabel.text = formatNumber(rating)
-            ratingImage.image = UIImage(systemName: (rating > 0 ? "arrow.up" : "arrow.down"))
+            ratingImage.image = UIImage(systemName: (rating >= 0 ? "arrow.up" : "arrow.down"))
         }
     }
     
