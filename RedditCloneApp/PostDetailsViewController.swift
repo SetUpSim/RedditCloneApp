@@ -46,6 +46,12 @@ class PostDetailsViewController: UIViewController {
         updateView()
     }
     
+    @IBAction func shareButtonClicked(_ sender: Any) {
+        let shareLink = URL(string: PostService.baseURL + post!.permalink)
+        let activityVC = UIActivityViewController(activityItems: [shareLink!], applicationActivities: nil)
+        navigationController?.present(activityVC, animated: true, completion: nil)
+    }
+    
     func loadImage() {
         if let imgSource = post?.preview?.images[0].source {
             let preparedUrl = prepareImageURL(url: imgSource.url)

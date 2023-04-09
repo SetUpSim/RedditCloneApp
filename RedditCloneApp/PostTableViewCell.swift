@@ -24,8 +24,10 @@ class PostTableViewCell: UITableViewCell {
     
     @IBOutlet var postImageHeigthConstraint: NSLayoutConstraint!
     
+    weak var shareDelegate: ShareDelegate?
+
     var post: PostModel?
-    var isBookmarked = false;
+    var isBookmarked = false
     
     func configure(_ post: PostModel) {
         self.post = post
@@ -40,6 +42,10 @@ class PostTableViewCell: UITableViewCell {
         super.prepareForReuse()
         post = nil
         isBookmarked = false
+    }
+    
+    @IBAction func shareButtonClicked(_ sender: Any) {
+        self.shareDelegate?.cellShareButtonClicked(url: post?.permalink ?? "")
     }
     
     func clearImage() {
@@ -89,4 +95,8 @@ class PostTableViewCell: UITableViewCell {
         isBookmarked.toggle()
         updateBookmarkButtonState()
     }
+}
+
+protocol ShareDelegate: AnyObject {
+    func cellShareButtonClicked(url: String)
 }

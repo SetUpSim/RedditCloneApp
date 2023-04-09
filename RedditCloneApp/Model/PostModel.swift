@@ -15,6 +15,7 @@ struct PostModel: Codable {
     let ups: Int
     let downs: Int
     let numComments: Int
+    let permalink: String
     let preview: ImagePreview?
 }
 

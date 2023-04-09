@@ -9,8 +9,10 @@ import Foundation
 
 class PostService {
     
+    static let baseURL = "https://www.reddit.com"
+    
     static func loadPosts(subreddit: String, limit: Int, after: String? = nil, completion: @escaping([PostModel]?, String?) -> ()){
-        var urlString = "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(limit)"
+        var urlString = baseURL + "/r/\(subreddit)/top.json?limit=\(limit)"
         
         if let after = after {
             urlString += "&after=\(after)"

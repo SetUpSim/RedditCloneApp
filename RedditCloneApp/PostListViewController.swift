@@ -74,6 +74,8 @@ class PostListViewController: UIViewController {
             let viewWidth = cell.postImageView.frame.width
             let viewHeight = viewWidth / ratio
             let trasformer = SDImageResizingTransformer(size: CGSize(width: viewWidth, height: viewHeight), scaleMode: .fill)
+//            print("Image source size:", imgSource.width, imgSource.height)
+//            print("Setting image to view with size:", viewWidth, viewHeight, "for post", post.title[..<post.title.index(post.title.startIndex, offsetBy: 20)])
             
             cell.postImageView.sd_setImage(
                 with: URL(string: preparedUrl),
@@ -89,9 +91,9 @@ class PostListViewController: UIViewController {
                         cell.postImageHeigthConstraint.isActive = false
                         cell.postImageView.image = image
                     }
-                }
-            )
-            cell.postImageView.setNeedsLayout()
+                    cell.postImageView.setNeedsLayout();
+//                    print("Resulting image view size:", cell.postImageView.image?.size)
+                })
         } else {
             cell.clearImage()
         }
@@ -126,6 +128,7 @@ extension PostListViewController: UITableViewDataSource {
         ) as! PostTableViewCell
         let post = posts[indexPath.row]
         cell.configure(post)
+        cell.shareDelegate = self
         loadImage(for: cell, post: post)
         if (!lastChunkFailedToLoad && !loadingPending && indexPath.row + Const.postsBeforeNewLoad >= posts.count) {
             loadNewPosts(after: newPostsAt)
@@ -150,6 +153,14 @@ extension PostListViewController: UITableViewDelegate {
                 self.loadNewPosts(after: self.newPostsAt)
             }
         }
+    }
+}
+
+extension PostListViewController: ShareDelegate {
+    func cellShareButtonClicked(url: String) {
+        let shareLink = URL(string: PostService.baseURL + url)
+        let activityVC = UIActivityViewController(activityItems: [shareLink!], applicationActivities: nil)
+        navigationController?.present(activityVC, animated: true, completion: nil)
     }
 }
 
