@@ -1,1 +1,1 @@
-Project for learning iOS development during university course
+A project to study iOS development during a university course
